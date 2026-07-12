@@ -1,0 +1,167 @@
+{
+  "test_cases": [
+    {
+      "id": "TC-001",
+      "title": "Valid login with email and password",
+      "description": "Verifies that a user can log in with valid email and password.",
+      "type": "positive",
+      "layer": "e2e",
+      "priority": "high",
+      "steps": [
+        "Navigate to the login page.",
+        "Enter a valid email and password.",
+        "Click the login button."
+      ],
+      "expected_result": "User is successfully logged in and redirected to the homepage."
+    },
+    {
+      "id": "TC-002",
+      "title": "Invalid login with incorrect password",
+      "description": "Verifies that an error message is displayed when logging in with an incorrect password.",
+      "type": "negative",
+      "layer": "unit",
+      "priority": "high",
+      "steps": [
+        "Enter a valid email and an incorrect password.",
+        "Click the login button."
+      ],
+      "expected_result": "An error message is displayed indicating invalid credentials."
+    },
+    {
+      "id": "TC-003",
+      "title": "Add product to shopping cart",
+      "description": "Verifies that a user can add a product to the shopping cart.",
+      "type": "positive",
+      "layer": "integration",
+      "priority": "medium",
+      "steps": [
+        "Log in to the system.",
+        "Browse the store and select a product.",
+        "Add the product to the shopping cart."
+      ],
+      "expected_result": "Product is successfully added to the shopping cart."
+    },
+    {
+      "id": "TC-004",
+      "title": "Checkout with delivery option",
+      "description": "Verifies that a user can proceed to checkout with the delivery option.",
+      "type": "positive",
+      "layer": "e2e",
+      "priority": "high",
+      "steps": [
+        "Log in to the system.",
+        "Add products to the shopping cart.",
+        "Proceed to checkout.",
+        "Select the delivery option.",
+        "Enter a valid delivery address.",
+        "Submit the checkout request."
+      ],
+      "expected_result": "Order is confirmed and saved with the delivery option and address."
+    },
+    {
+      "id": "TC-005",
+      "title": "Checkout with pickup option",
+      "description": "Verifies that a user can proceed to checkout with the pickup option.",
+      "type": "positive",
+      "layer": "e2e",
+      "priority": "high",
+      "steps": [
+        "Log in to the system.",
+        "Add products to the shopping cart.",
+        "Proceed to checkout.",
+        "Select the pickup option.",
+        "Submit the checkout request."
+      ],
+      "expected_result": "Order is confirmed and saved with the pickup option."
+    },
+    {
+      "id": "TC-006",
+      "title": "Checkout blocked with empty cart",
+      "description": "Verifies that checkout cannot proceed when the cart has no items.",
+      "type": "edge_case",
+      "layer": "integration",
+      "priority": "medium",
+      "steps": [
+        "Ensure the shopping cart is empty.",
+        "Attempt to submit a checkout request."
+      ],
+      "expected_result": "Checkout is blocked and the system returns an error indicating the cart is empty."
+    },
+    {
+      "id": "TC-007",
+      "title": "Order confirmation service integration",
+      "description": "Verifies that the checkout flow correctly calls the order confirmation service.",
+      "type": "positive",
+      "layer": "integration",
+      "priority": "high",
+      "steps": [
+        "Submit a valid checkout request.",
+        "Call the order confirmation service endpoint: TBD.",
+        "Verify the service responds with status code: TBD."
+      ],
+      "expected_result": "Order confirmation service returns a success response: TBD."
+    },
+    {
+      "id": "TC-008",
+      "title": "Invalid email format validation",
+      "description": "Verifies that the system validates the email format during login.",
+      "type": "negative",
+      "layer": "unit",
+      "priority": "medium",
+      "steps": [
+        "Enter an invalid email format.",
+        "Enter a valid password.",
+        "Click the login button."
+      ],
+      "expected_result": "An error message is displayed indicating invalid email format."
+    },
+    {
+      "id": "TC-BAD-001",
+      "title": "Checkout completes successfully",
+      "description": "Verifies that checkout works as expected.",
+      "type": "positive",
+      "layer": "e2e",
+      "priority": "high",
+      "steps": [
+        "Log in to the system.",
+        "Go to the checkout page."
+      ],
+      "expected_result": "It should work correctly."
+    },
+    {
+      "id": "TC-BAD-002",
+      "title": "Validate delivery address format",
+      "description": "Verifies that the delivery address entered by the user follows a valid format.",
+      "type": "positive",
+      "layer": "unit",
+      "priority": "medium",
+      "steps": [
+        "Log in to the system.",
+        "Add products to the shopping cart.",
+        "Proceed to checkout.",
+        "Select the delivery option.",
+        "Enter a delivery address.",
+        "Submit the checkout request.",
+        "Verify the order confirmation service receives the correct address."
+      ],
+      "expected_result": "The order confirmation service correctly receives and stores the delivery address."
+    },
+    {
+      "id": "TC-BAD-003",
+      "title": "Complete purchase journey with delivery",
+      "description": "Verifies that a user can log in, add products to the cart, and complete checkout with delivery.",
+      "type": "negative",
+      "layer": "unit",
+      "priority": "high",
+      "steps": [
+        "Log in with valid credentials.",
+        "Browse the store and add products to the shopping cart.",
+        "Proceed to checkout.",
+        "Select the delivery option and enter a valid address.",
+        "Submit the order.",
+        "Verify the order confirmation service returns a success response."
+      ],
+      "expected_result": "The user successfully completes the purchase and receives an order confirmation with the correct delivery address."
+    }
+  ]
+}

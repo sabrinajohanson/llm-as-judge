@@ -1,0 +1,136 @@
+{
+  "evaluations": [
+    {
+      "test_case_id": "TC-001",
+      "scores": {
+        "clarity": 5,
+        "step_validity": 5,
+        "verifiable_expected_result": 5,
+        "layer_correctness": 5,
+        "tbd_appropriateness": 5
+      },
+      "overall_verdict": "pass",
+      "justification": "The test case is clearly written and unambiguous, with steps that align perfectly with the title and description. The expected result is objectively verifiable, and the layer classification as 'e2e' is appropriate for testing a complete user journey. There is no use of 'TBD', so appropriateness is not applicable."
+    },
+    {
+      "test_case_id": "TC-002",
+      "scores": {
+        "clarity": 4,
+        "step_validity": 5,
+        "verifiable_expected_result": 5,
+        "layer_correctness": 2,
+        "tbd_appropriateness": 5
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case is clear and the steps align with the description, making it easy to execute. The expected result is verifiable. However, the layer classification is incorrect; this test case is more suited for an integration or e2e layer rather than a unit test, as it involves user interaction with the login system."
+    },
+    {
+      "test_case_id": "TC-003",
+      "scores": {
+        "clarity": 4,
+        "step_validity": 4,
+        "verifiable_expected_result": 4,
+        "layer_correctness": 5,
+        "tbd_appropriateness": 5
+      },
+      "overall_verdict": "pass",
+      "justification": "The test case is clearly written with unambiguous steps that align well with the title and description. The expected result is verifiable, as it specifies that the product should be added to the cart, which can be objectively confirmed. The layer classification as 'integration' is appropriate because it involves interaction between user login, product selection, and cart functionalities. There is no use of 'TBD', so appropriateness is not applicable."
+    },
+    {
+      "test_case_id": "TC-004",
+      "scores": {
+        "clarity": 4,
+        "step_validity": 4,
+        "verifiable_expected_result": 4,
+        "layer_correctness": 5,
+        "tbd_appropriateness": 5
+      },
+      "overall_verdict": "pass",
+      "justification": "The test case is clearly written with unambiguous steps that align well with the title and description. The expected result is verifiable as it specifies the order confirmation and saving with delivery details. The layer classification as 'e2e' is appropriate as it tests a complete user journey. There is no use of 'TBD', so appropriateness is not applicable."
+    },
+    {
+      "test_case_id": "TC-005",
+      "scores": {
+        "clarity": 4,
+        "step_validity": 5,
+        "verifiable_expected_result": 4,
+        "layer_correctness": 5,
+        "tbd_appropriateness": 3
+      },
+      "overall_verdict": "pass",
+      "justification": "The test case is clear and unambiguous, with steps that align well with the title and description. The expected result is verifiable, and the layer classification as 'e2e' is appropriate given the complete user journey being tested. There is no use of 'TBD', so the appropriateness score is neutral."
+    },
+    {
+      "test_case_id": "TC-006",
+      "scores": {
+        "clarity": 5,
+        "step_validity": 5,
+        "verifiable_expected_result": 5,
+        "layer_correctness": 4,
+        "tbd_appropriateness": 3
+      },
+      "overall_verdict": "pass",
+      "justification": "The test case is clearly written and unambiguous, with steps that align well with the title and description. The expected result is objectively verifiable. The layer classification as 'integration' is mostly appropriate, as it involves interaction between components (cart and checkout system). There is no use of 'TBD', so the score reflects the absence of unnecessary placeholders."
+    },
+    {
+      "test_case_id": "TC-007",
+      "scores": {
+        "clarity": 2,
+        "step_validity": 2,
+        "verifiable_expected_result": 2,
+        "layer_correctness": 4,
+        "tbd_appropriateness": 1
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case lacks clarity due to the use of 'TBD' for critical details like the service endpoint and expected status code, making it difficult to execute without guessing. The steps do not fully align with the description as they are incomplete and vague. The expected result is not verifiable due to the use of 'TBD'. While the layer classification as 'integration' is correct, the use of 'TBD' for information that should be specified is inappropriate, leading to a fail verdict."
+    },
+    {
+      "test_case_id": "TC-008",
+      "scores": {
+        "clarity": 4,
+        "step_validity": 4,
+        "verifiable_expected_result": 5,
+        "layer_correctness": 2,
+        "tbd_appropriateness": 5
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case is generally clear and the steps align well with the title and description, making it easy to execute. The expected result is specific and verifiable. However, the layer classification is incorrect; this test case is more suited to an integration or e2e layer rather than a unit test, as it involves user interaction with the login system, which typically involves multiple components. There is no use of 'TBD', so that criterion is not applicable."
+    },
+    {
+      "test_case_id": "TC-BAD-001",
+      "scores": {
+        "clarity": 2,
+        "step_validity": 1,
+        "verifiable_expected_result": 1,
+        "layer_correctness": 3,
+        "tbd_appropriateness": 3
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case lacks clarity as it does not provide detailed steps for completing a checkout process. The steps do not align with the title or description, as they only cover logging in and navigating to the checkout page, without performing any checkout actions. The expected result is vague and not objectively verifiable. The layer classification as 'e2e' is correct, as it aims to test a user journey, but the steps are insufficient to fulfill this. There is no use of 'TBD', so appropriateness is not applicable."
+    },
+    {
+      "test_case_id": "TC-BAD-002",
+      "scores": {
+        "clarity": 2,
+        "step_validity": 2,
+        "verifiable_expected_result": 2,
+        "layer_correctness": 1,
+        "tbd_appropriateness": 3
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case lacks clarity as it does not specify what constitutes a valid delivery address format. The steps do not directly test the address format validation, as they focus more on the checkout process. The expected result is vague and not easily verifiable, as it does not specify how the correctness of the address format is determined. The layer classification is incorrect; this test is more suited to an integration or e2e test rather than a unit test. There is no use of 'TBD', so that criterion is not applicable."
+    },
+    {
+      "test_case_id": "TC-BAD-003",
+      "scores": {
+        "clarity": 3,
+        "step_validity": 2,
+        "verifiable_expected_result": 3,
+        "layer_correctness": 1,
+        "tbd_appropriateness": 3
+      },
+      "overall_verdict": "fail",
+      "justification": "The test case has several issues: the steps do not align with the negative test type as it describes a positive flow, and the layer is incorrectly classified as 'unit' when it should be 'e2e'. The expected result is verifiable, but the test case lacks clarity in its negative testing intent."
+    }
+  ]
+}
