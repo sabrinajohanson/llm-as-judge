@@ -49,11 +49,11 @@ All 3 control cases were correctly identified as failing, confirming the judge a
 
 Beyond the intentional control cases, the judge also flagged two *original*, unmodified test cases from `llm-test-case-generator` (`TC-002` and `TC-008`, both login-related tests) as `fail`, citing incorrect `layer_correctness`: both were classified as `unit`, but the judge argued that testing login involves interaction with an authentication system and should be `integration` or `e2e` instead.
 
-This was not planned - it surfaced during normal evaluation of the "good" test cases. It validates a limitation that was already noted (but not pinpointed) in `llm-test-case-generator`'s README: layer classification is not fully reliable, especially for cases involving user authentication. This project provided concrete, automated evidence of exactly which cases were affected.
+This was not planned, it surfaced during normal evaluation of the "good" test cases. It validates a limitation that was already noted (but not pinpointed) in `llm-test-case-generator`'s README: layer classification is not fully reliable, especially for cases involving user authentication. This project provided concrete, automated evidence of exactly which cases were affected.
 
 **3. Why one API call per test case, instead of one call for the whole batch**
 
-Evaluating test cases individually (rather than sending all of them in a single prompt) produces more focused, consistent judgments, at the cost of more API calls. For a small batch (11 test cases here), this tradeoff is worth it; for much larger batches, batching strategies would need to be reconsidered.
+Evaluating test cases individually (rather than sending all of them in a single prompt) produces more focused, consistent judgments, at the cost of more API calls. For a small batch (11 test cases here), this tradeoff is worth it, for much larger batches, batching strategies would need to be reconsidered.
 
 ## Example Output
 
