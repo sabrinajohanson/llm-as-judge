@@ -29,12 +29,12 @@ jobs:
       - name: Show results summary
         run: mutmut results
 
-      - name: Generate HTML report
-        run: mutmut html
+      - name: Generate JUnit XML report
+        run: mutmut junitxml > mutation-report.xml
 
       - name: Upload mutation report
         uses: actions/upload-artifact@v4
         with:
           name: mutation-report
-          path: html/
+          path: mutation-report.xml
           retention-days: 30
