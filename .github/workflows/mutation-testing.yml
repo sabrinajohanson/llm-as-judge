@@ -29,12 +29,14 @@ jobs:
       - name: Show results summary
         run: mutmut results
 
-      - name: Generate JUnit XML report
-        run: mutmut junitxml > mutation-report.xml
+      - name: Show mutmut version and available commands
+        run: |
+          pip show mutmut
+          mutmut --help
 
-      - name: Upload mutation report
+      - name: Upload mutmut cache
         uses: actions/upload-artifact@v4
         with:
-          name: mutation-report
-          path: mutation-report.xml
+          name: mutmut-cache
+          path: .mutmut-cache
           retention-days: 30
