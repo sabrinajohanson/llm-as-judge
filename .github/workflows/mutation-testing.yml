@@ -1,0 +1,40 @@
+name: Mutation Testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  mutate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install mutmut
+
+      - name: Run mutation testing
+        env:
+          OPENAI_API_KEY: "fake-key-for-tests"
+        run: mutmut run || true
+
+      - name: Show results summary
+        run: mutmut results
+
+      - name: Generate HTML report
+        run: mutmut html
+
+      - name: Upload mutation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-report
+          path: html/
+          retention-days: 30
