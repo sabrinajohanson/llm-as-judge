@@ -26,17 +26,17 @@ jobs:
           OPENAI_API_KEY: "fake-key-for-tests"
         run: mutmut run || true
 
-      - name: Show results summary
-        run: mutmut results
+      - name: Save results summary
+        run: mutmut results | tee mutation-report.txt
 
-      - name: Show mutmut version and available commands
-        run: |
-          pip show mutmut
-          mutmut --help
+      - name: Save CI/CD stats
+        run: mutmut export-cicd-stats > mutation-cicd-stats.json || true
 
-      - name: Upload mutmut cache
+      - name: Upload mutation report
         uses: actions/upload-artifact@v4
         with:
-          name: mutmut-cache
-          path: .mutmut-cache
+          name: mutation-report
+          path: |
+            mutation-report.txt
+            mutation-cicd-stats.json
           retention-days: 30
