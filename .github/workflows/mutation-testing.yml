@@ -28,6 +28,15 @@ jobs:
 
       - name: Save results summary
         run: mutmut results | tee mutation-report.txt
+      
+      - name: Show specific mutant diffs for verification
+        run: |
+          echo "=== evaluate_test_case__mutmut_7 ==="
+          mutmut show judge.x_evaluate_test_case__mutmut_7 || true
+          echo "=== evaluate_test_case__mutmut_10 ==="
+          mutmut show judge.x_evaluate_test_case__mutmut_10 || true
+          echo "=== evaluate_test_case__mutmut_11 ==="
+          mutmut show judge.x_evaluate_test_case__mutmut_11 || true
 
       - name: Upload mutation report
         uses: actions/upload-artifact@v4
