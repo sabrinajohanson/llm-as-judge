@@ -59,6 +59,19 @@ This was not planned, it surfaced during normal evaluation of the "good" test ca
 
 Evaluating test cases individually (rather than sending all of them in a single prompt) produces more focused, consistent judgments, at the cost of more API calls. For a small batch (11 test cases here), this tradeoff is worth it, for much larger batches, batching strategies would need to be reconsidered.
 
+**4. Mutation testing reveals shallow assertion depth despite 100% test pass rate**
+
+Running mutation testing (`mutmut`) against `judge.py` initially generated 76 mutants, of which only 16 were killed by the existing test suite, a mutation score of ~21%. This is a meaningfully different signal than the 100% pass rate of the 5 existing unit tests: passing tests confirm the code behaves correctly on the paths it exercises, while mutation testing reveals how thoroughly those paths are actually checked.
+
+Reviewing a representative sample of survivors showed two categories:
+
+- **Genuine gaps**: mutants like `open(path, "r", encoding=None)` (instead of `"utf-8"`) and `model=None` (instead of `"gpt-4o"`) survived because the tests never asserted on *how* dependencies were called, only on the final result. A silent regression removing the encoding or swapping the model would have gone undetected.
+- **Cosmetic/low-value mutants**: mutants like `json.dumps(test_case, indent=None)` (instead of `indent=2`) or `print(None)` (instead of a formatted log line) survive because they don't affect actual behavior. Chasing these would test implementation details, not correctness.
+
+Two tests were strengthened to close the genuine gaps: one asserting the exact arguments passed to `open()`, and one asserting the `model` parameter sent to the OpenAI API call. This raised the mutation score to ~32% (24/76 killed), closing every survivor related to file encoding and the model parameter, without chasing the cosmetic mutants identified above.
+
+**Takeaway:** a 100% pass rate says nothing about how deeply a test suite actually verifies behavior. Mutation testing is a much stronger signal, but it also requires judgment to separate meaningful survivors from noise; treating every surviving mutant as a bug to fix would waste effort on details that don't matter.
+
 ## Example Output
 
 See [`examples/sample_evaluation_output.json`](./examples/sample_evaluation_output.json) for the real, unedited evaluation results generated from [`examples/input_test_cases.json`](./examples/input_test_cases.json).
@@ -79,6 +92,8 @@ Run the live test locally (requires a valid `OPENAI_API_KEY` in `.env`):
 ```bash
 pytest tests/live/ -v
 ```
+
+**Mutation testing:** Run on-demand via GitHub Actions (`Mutation Testing` workflow, `workflow_dispatch`), using `mutmut` against `judge.py`. Generates an HTML report (total/killed/survived counts, grouped by function), uploaded as a downloadable artifact rather than published permanently, since it's run manually rather than on every push. See "Findings" above for the current mutation score and interpretation.
 
 **Test reports:**
 - The mock CI publishes a full [Allure Report](https://sabrinajohanson.github.io/llm-as-judge/) on every push, showing the detailed results of the mocked test suite.
