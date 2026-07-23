@@ -29,25 +29,9 @@ jobs:
       - name: Save results summary
         run: mutmut results | tee mutation-report.txt
 
-      - name: Show selected survivor diffs
-        run: |
-          echo "=== read_test_cases__mutmut_3 ==="
-          mutmut show judge.x_read_test_cases__mutmut_3 || true
-          echo "=== build_judge_prompt__mutmut_2 ==="
-          mutmut show judge.x_build_judge_prompt__mutmut_2 || true
-          echo "=== evaluate_test_case__mutmut_4 ==="
-          mutmut show judge.x_evaluate_test_case__mutmut_4 || true
-          echo "=== evaluate_all_test_cases__mutmut_2 ==="
-          mutmut show judge.x_evaluate_all_test_cases__mutmut_2 || true
-
-      - name: Save CI/CD stats
-        run: mutmut export-cicd-stats > mutation-cicd-stats.json || true
-
       - name: Upload mutation report
         uses: actions/upload-artifact@v4
         with:
           name: mutation-report
-          path: |
-            mutation-report.txt
-            mutation-cicd-stats.json
+          path: mutation-report.txt
           retention-days: 30
