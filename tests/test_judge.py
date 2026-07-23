@@ -1,5 +1,5 @@
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, mock_open
 import pytest
 from judge import read_test_cases, build_judge_prompt, evaluate_test_case, evaluate_all_test_cases
 
@@ -19,10 +19,25 @@ def test_read_test_cases(tmp_path):
     assert result["test_cases"][0]["id"] == "TC-001"
 
 
-def test_build_judge_prompt_contains_test_case_id():
+def test_read_test_cases_uses_utf8_encoding():
+    # Arrange: mock the built-in open() to inspect exactly how it's called,
+    # instead of relying on file content differences (which can pass or fail
+    # depending on the runner's default locale encoding)
+    fake_content = '{"test_cases": []}'
 
+    # Act
+    with patch("builtins.open", mock_open(read_data=fake_content)) as mocked_open:
+        read_test_cases("some_path.json")
+
+    # Assert: confirm the file was opened explicitly with UTF-8 encoding
+    mocked_open.assert_called_once_with("some_path.json", "r", encoding="utf-8")
+
+
+def test_build_judge_prompt_contains_test_case_id():
+    # Arrange
     test_case = {"id": "TC-002", "title": "Sample test", "layer": "unit"}
 
+    # Act
     prompt = build_judge_prompt(test_case)
 
     # Assert: confirm the test case id is embedded in the generated prompt
@@ -48,12 +63,19 @@ def test_evaluate_test_case_success():
     mock_response.choices[0].message.content = fake_json_response
 
     # Act: patch only the API call
-    with patch("judge.client.chat.completions.create", return_value=mock_response):
+    with patch("judge.client.chat.completions.create", return_value=mock_response) as mock_create:
         result = evaluate_test_case({"id": "TC-001", "title": "Sample test"})
 
-    # Assert
+    # Assert: correctness of the parsed result
     assert result["test_case_id"] == "TC-001"
     assert result["overall_verdict"] == "pass"
+
+    # Assert: confirm the API was called with the expected model, not just
+    # that it returned something usable. This catches accidental changes
+    # to which model the judge actually uses.
+    mock_create.assert_called_once()
+    _, call_kwargs = mock_create.call_args
+    assert call_kwargs["model"] == "gpt-4o"
 
 
 def test_evaluate_test_case_invalid_json():
@@ -61,6 +83,7 @@ def test_evaluate_test_case_invalid_json():
     mock_response = MagicMock()
     mock_response.choices[0].message.content = "This is not valid JSON"
 
+    # Act & Assert
     with patch("judge.client.chat.completions.create", return_value=mock_response):
         with pytest.raises(json.JSONDecodeError):
             evaluate_test_case({"id": "TC-001", "title": "Sample test"})
@@ -78,6 +101,7 @@ def test_evaluate_all_test_cases_aggregates_results():
     }
 
     with patch("judge.evaluate_test_case", return_value=fake_evaluation) as mock_evaluate:
+        # Act
         result = evaluate_all_test_cases([{"id": "TC-001"}, {"id": "TC-002"}])
 
     # Assert: confirm it looped over both test cases and aggregated correctly
